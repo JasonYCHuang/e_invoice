@@ -1,9 +1,10 @@
 # EInvoice
 
 [![Code Climate](https://codeclimate.com/github/JasonYCHuang/e_invoice/badges/gpa.svg)](https://codeclimate.com/github/JasonYCHuang/e_invoice)
-[![Test Coverage](https://codeclimate.com/github/JasonYCHuang/e_invoice/badges/coverage.svg)](https://codeclimate.com/github/JasonYCHuang/e_invoice/coverage)
+[![Coverage Status](https://coveralls.io/repos/github/JasonYCHuang/e_invoice/badge.svg?branch=master)](https://coveralls.io/github/JasonYCHuang/e_invoice?branch=master)
 [![Issue Count](https://codeclimate.com/github/JasonYCHuang/e_invoice/badges/issue_count.svg)](https://codeclimate.com/github/JasonYCHuang/e_invoice)
 [![Build Status](https://travis-ci.org/JasonYCHuang/e_invoice.svg?branch=master)](https://travis-ci.org/JasonYCHuang/e_invoice)
+[![Dependency Status](https://gemnasium.com/JasonYCHuang/e_invoice.svg)](https://gemnasium.com/JasonYCHuang/e_invoice)
 
 
 With EASYCARD number and code, you can import electronic invoice from E-invoice platform, Ministry of Finance, Taiwan.
