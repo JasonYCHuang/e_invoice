@@ -9,6 +9,12 @@
 
 With EASYCARD number and code, you can import electronic invoice from E-invoice platform, Ministry of Finance, Taiwan.
 
+This gem is base on the following spec, 電子發票應用API規格. (Sorry, Chinese only)
+
+https://www.einvoice.nat.gov.tw/ein_upload/html/1428905476324.html;jsessionid=NYHKXGpX117xWMtg4LXDYnC40DGnHG5WKQ6q1bJDNCccjpln7bjG!531083587
+
+
+
 
 ## Installation
 
@@ -28,19 +34,57 @@ Or install it yourself as:
 
 ## Usage
 
-TODO:
+#### 1. Generate the initializer file.
 
-## Development
+```shell
+$ rails generate e_invoice
+```
 
-TODO:
+#### 2. Add APPID & UUID
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+If you use Figaro gem, you can do like this.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+# config/initailizers/e_invoice.rb
+require "e_invoice"
+
+module EInvoice
+  APPID = ENV["EINV_APPID"]
+  UUID = ENV["EINV_UUID"]
+end
+```
+
+```ruby
+# config/applicaton.yml
+.
+.
+.
+EINV_APPID: "your_secretappid"
+EINV_UUID: "your_secret_uuid"
+```
+
+#### 3. Verify an EASYCARD account before adding it into your system.
+
+```ruby
+# create a variable with EASYCARD account number & encrypt.
+easy_card = EInvoice::Payload.new("1K0001", card_number, card_encrypt)
+# request_header to check whether this EASYCARD is a valid in the database of Ministry of Finance, Taiwan.
+headers = easy_card.request_header(Time.now.strftime("%Y-%m-%d"), Time.now.strftime("%Y-%m-%d"))
+# If it is valid, the following will be true. This can be used as validation.
+EInvoice::Result.new(headers.response_code).success?
+```
+
+#### 4. Get E_invoice records of an EASYCARD account.
+
+```ruby
+invoices =  EInvoice::Payload.new("1K0001", easy_card.card_number, easy_card.card_encrypt)
+                             .get_invoices(start_date, end_date)
+# start_date can not be prior than 3 months ago.
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/e_invoice. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jasonych/e_invoice. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License
